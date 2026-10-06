@@ -1,0 +1,23 @@
+name: ci
+
+# Build/test on pull requests and manual runs only. Release binaries are built
+# on version tags (see release.yml), not on every push.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release --verbose
+      - name: Test (GPU tests skip without an adapter on CI)
+        run: cargo test --release --verbose

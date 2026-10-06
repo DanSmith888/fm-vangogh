@@ -1,0 +1,32 @@
+[package]
+name = "fm-vangogh"
+version = "0.1.0"
+edition = "2021"
+description = "Recover and decrypt FileMaker Encryption At Rest (EAR) files you own"
+license = "MIT"
+publish = false
+
+[[bin]]
+name = "fm-vangogh"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+sha1 = "0.10"
+pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
+aes = "0.8"
+cbc = "0.1"
+rayon = "1"
+regex = "1"
+itertools = "0.13"
+anyhow = "1"
+wgpu = "30.0.1"
+pollster = "1.0.1"
+bytemuck = "1.25.2"
+crossterm = "0.29.0"
+owo-colors = "4.4.0"
+unicode-width = "0.2.2"
+
+[profile.release]
+lto = true
+codegen-units = 1
